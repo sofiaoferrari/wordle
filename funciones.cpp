@@ -22,10 +22,10 @@ vector<string> cargar_listado(const string & nombre_archivo){
 
     vector<string> palabras = {};
     string linea;
-    while (!archivo.eof()){
+    while (!archivo.eof()){ //itera hasta llegar al final del archivo
         getline(archivo, linea);
-        if (!linea.empty()) //saltea las lineas vacias
-            palabras.push_back(linea);
+        if (!linea.empty()) //saltea las lineas vacias del archivo
+            palabras.push_back(linea); 
     }
     
     return palabras;
@@ -38,9 +38,9 @@ vector<string> cargar_listado(const string & nombre_archivo){
  * palabra secreta y si es una palabra reconocida en el listado de palabras.
  */
 bool intento_valido(const string & intento, const string & palabra_secreta, const vector<string> &listado){
-    if (intento.size() == palabra_secreta.size()) { //misma cantidad de caracteres
+    if (intento.size() == palabra_secreta.size()) { //si tienen la misma cantidad de caracteres(5)
         for (string palabra : listado) {
-            if (intento == palabra) //la palabra se encuentra en el listado
+            if (intento == palabra) //si la palabra se encuentra en el listado
                 return true;
         }
     }
@@ -63,10 +63,10 @@ vector<EstadoLetra> evaluar_intento(const string & intento, const string & palab
     vector<EstadoLetra> estado;
     
     for (char letra : intento) {
-        //utilizo la funcion .find() para buscar la posicion de cada caracter de la 
-        //palabra intento en la palabra secreta y ver si coinciden las posiciones.
-        //(sabiendo que devuelve -1 en la caso de que no exista la posicion)
 
+        //utilizo la funcion .find() de <string> para buscar la posicion de cada letra  
+        //de la palabra intento en la palabra secreta y ver si coinciden las posiciones, 
+        //sabiendo que devuelve -1 en la caso de que no se encuentre la letra en dicha palabra.
         if (palabra_secreta.find(letra) == intento.find(letra)) //coincide posicion
             estado.push_back(EstadoLetra::LugarCorrecto);
         else if (palabra_secreta.find(letra) != -1) //contiene la letra pero en otra posicion
@@ -91,7 +91,9 @@ vector<EstadoLetra> evaluar_intento(const string & intento, const string & palab
 string respuesta_en_string(const vector<EstadoLetra> & respuesta){
     string resultado = "";
     
-    for (EstadoLetra estado : respuesta) {
+    //utilizo la funcion .append() de <string> para concatenar al string resultado
+    //el caracter que representa cada estado de cada letra de la palabra intento.
+    for (EstadoLetra estado : respuesta) { 
         if (estado == EstadoLetra::LugarCorrecto)
             resultado.append("+");
         else if (estado == EstadoLetra::LugarIncorrecto)
